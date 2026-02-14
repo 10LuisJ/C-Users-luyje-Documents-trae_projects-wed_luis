@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[remote "origin"]
+	url = https://github.com/10LuisJ/wed_luis.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[user]
+	name = 10LuisJ
+	email = achocachayluisjesus@gmail.com
