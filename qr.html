@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR para el teléfono</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body{margin:0; font-family:Poppins, system-ui, Segoe UI, Roboto, Helvetica, Arial; display:grid; place-items:center; min-height:100vh; background:#faf7fb; color:#222}
+    .card{background:#fff; border:1px solid #eee; border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,0,0,.08); width:min(560px, 94vw)}
+    h1{font-size:20px; margin:0 0 10px 0}
+    p{margin:8px 0; line-height:1.6}
+    #qrcode{display:grid; place-items:center; padding:16px; border:1px dashed #ddd; border-radius:12px; background:#fff}
+    .url{font-size:14px; word-break:break-all; color:#444; margin-top:6px}
+    .hint{font-size:12px; color:#666}
+    .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px}
+    input[type="text"]{flex:1; min-width:200px; padding:10px 12px; border-radius:10px; border:1px solid #ddd; outline:none}
+    button{border:0; background:#ff6b8b; color:#fff; padding:10px 14px; border-radius:10px; font-weight:600; cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Escanea este código QR en tu celular</h1>
+    <div id="qrcode"></div>
+    <div class="url" id="url"></div>
+    <p class="hint">Si no abre, asegúrate de que el teléfono esté en la misma red Wi‑Fi y que el puerto esté accesible.</p>
+    <div class="row">
+      <input id="custom" type="text" placeholder="Pega una URL personalizada (opcional)" />
+      <button id="apply">Generar</button>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const u = params.get('url') || location.origin + '/';
+    const box = document.getElementById('qrcode');
+    const urlEl = document.getElementById('url');
+    const input = document.getElementById('custom');
+    const btn = document.getElementById('apply');
+    urlEl.textContent = u;
+    let qr = new QRCode(box, { text:u, width:256, height:256, correctLevel: QRCode.CorrectLevel.M });
+    btn.addEventListener('click', ()=>{
+      const val = input.value.trim() || u;
+      box.innerHTML = '';
+      qr = new QRCode(box, { text:val, width:256, height:256, correctLevel: QRCode.CorrectLevel.M });
+      urlEl.textContent = val;
+    });
+  </script>
+</body>
+</html>
